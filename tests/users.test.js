@@ -1,10 +1,11 @@
 const request = require('supertest')
 const app = require('../app')
 
+const path = "localhost:3000";
 
 describe('Users', () => {
     it('Should return all the users', () => {
-        request(app)
+        request(path)
             .get('/users')
             .expect(200)
             .then(res => {
@@ -16,7 +17,7 @@ describe('Users', () => {
 
     describe('Find User by Id', () => {
         it('Should return user', () => {
-            request(app)
+            request(path)
                 .get('/users/1')
                 .expect(200)
                 .then(res => {
@@ -27,7 +28,7 @@ describe('Users', () => {
         })
 
         it('Should return message user not found', () => {
-            request(app)
+            request(path)
                 .get('/users/9')
                 .expect(200)
                 .then(res => {
@@ -39,7 +40,7 @@ describe('Users', () => {
     })
 
     it('Should return users count', () => {
-        request(app)
+        request(path)
             .get('/users/count')
             .expect(200)
             .then(res => {

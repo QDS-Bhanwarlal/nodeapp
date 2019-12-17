@@ -28,7 +28,7 @@ let users = [
     name: 'Sachin',
     location: 'Borivali'
   }
-]
+];
 
 
 /* GET Users */
@@ -53,7 +53,7 @@ router.get('/count', function(req, res, next) {
 router.get('/:userId', function(req, res, next) {
   let user = users.filter(function(user) {
     return user.id == req.params.userId;
-  })
+  });
   if(user.length > 0){
     res.send({
       "success": true,
@@ -62,11 +62,9 @@ router.get('/:userId', function(req, res, next) {
   }else{
     res.send({
       "success": false,
-      message: "No user found User Id:"+req.params.userId, 
+      message: "No user found User Id:"+req.params.userId
     });
   }
 });
-
-
 
 module.exports = router;
