@@ -13,13 +13,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
+
     - name: Unit Test
       run: |
         npm i
         npm i -g serverless
         sls offline --exec 'npm test'
 
-    steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -28,7 +28,5 @@ jobs:
         aws-region: us-east-1
     - name: Deployment
       run: |
-        npm i
-        npm i -g serverless
         sls deploy
         
