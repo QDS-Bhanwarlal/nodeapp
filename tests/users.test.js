@@ -24,7 +24,7 @@ describe('Users', () => {
                 .then(res => {
                     expect(res.body.success).toBe(true);
                     expect(res.body.payload.length).toBe(1);
-                    expect(res.body.payload[0].id).toBe(2);
+                    expect(res.body.payload[0].id).toBe(1);
                     done();
                 });
         })
