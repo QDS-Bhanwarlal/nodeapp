@@ -11,6 +11,15 @@
       "runtime": "nodejs12.x",
       "region": "us-east-1",
       "memorySize": 128,
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:*"
+          ],
+          "Resource": "arn:aws:s3:::nodeappfileupload/*"
+        }
+      ],
       "versionFunctions": true,
       "remoteFunctionData": null,
       "compiledCloudFormationTemplate": {
@@ -132,6 +141,9 @@
                             "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/node-app-dev*:*:*"
                           }
                         ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
                       }
                     ]
                   }
@@ -160,7 +172,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/node-app/dev/1576658401450-2019-12-18T08:40:01.450Z/node-app.zip"
+                "S3Key": "serverless/node-app/dev/1576665877938-2019-12-18T10:44:37.938Z/node-app.zip"
               },
               "FunctionName": "node-app-dev-app",
               "Handler": "app.handler",
@@ -184,14 +196,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersionLZHnbL1LIw1ew8qWQMMwasiABmVvf0HMV2R2LfIFbOE": {
+          "AppLambdaVersioneycarJmLh62IXsOoMroJdRz2hr6Cilv0qhjaG3m3zs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "U5Vi4Ti7UiyeML+NsJmRBAE9QERxkdpBKY4NDvz9XWc="
+              "CodeSha256": "Fb0GiQx6AT93UotMfj2LVCVzmQP7Etv4xNY2VeLE4Cs="
             }
           },
           "ApiGatewayRestApi": {
@@ -402,7 +414,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1576658376513": {
+          "ApiGatewayDeployment1576665855747": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -453,6 +465,31 @@
                 ]
               }
             }
+          },
+          "UploadBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketName": "nodeappfileupload",
+              "AccessControl": "PublicRead",
+              "CorsConfiguration": {
+                "CorsRules": [
+                  {
+                    "AllowedMethods": [
+                      "GET",
+                      "PUT",
+                      "POST",
+                      "HEAD"
+                    ],
+                    "AllowedOrigins": [
+                      "*"
+                    ],
+                    "AllowedHeaders": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            }
           }
         },
         "Outputs": {
@@ -464,7 +501,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionLZHnbL1LIw1ew8qWQMMwasiABmVvf0HMV2R2LfIFbOE"
+              "Ref": "AppLambdaVersioneycarJmLh62IXsOoMroJdRz2hr6Cilv0qhjaG3m3zs"
             }
           },
           "ServiceEndpoint": {
@@ -633,12 +670,42 @@
         "vpc": {}
       }
     },
+    "resources": {
+      "Resources": {
+        "UploadBucket": {
+          "Type": "AWS::S3::Bucket",
+          "Properties": {
+            "BucketName": "nodeappfileupload",
+            "AccessControl": "PublicRead",
+            "CorsConfiguration": {
+              "CorsRules": [
+                {
+                  "AllowedMethods": [
+                    "GET",
+                    "PUT",
+                    "POST",
+                    "HEAD"
+                  ],
+                  "AllowedOrigins": [
+                    "*"
+                  ],
+                  "AllowedHeaders": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "Outputs": {}
+    },
     "serviceFilename": "serverless.yml",
     "layers": {},
     "artifact": "/home/bhanwar/quodisys/task/nodeapp/.serverless/node-app.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/node-app/dev/1576658401450-2019-12-18T08:40:01.450Z",
+    "artifactDirectoryName": "serverless/node-app/dev/1576665877938-2019-12-18T10:44:37.938Z",
     "artifact": "node-app.zip"
   }
 }

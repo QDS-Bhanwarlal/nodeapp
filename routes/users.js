@@ -6,10 +6,12 @@ const knex = require('../knex/knex.js');
 const fs = require('fs');
 const AWS = require('aws-sdk');
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-});
+// const s3 = new AWS.S3({
+//   accessKeyId: process.env.AWS_ACCESS_KEY,
+//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+// });
+
+var s3 = new AWS.S3();
 
 /* GET Users */
 router.get('/', function(req, res, next) {
@@ -65,39 +67,48 @@ router.get('/:userId', function(req, res, next) {
 
 router.post('/:userId/upload', function(req, res, next) {
   let profile_img = req.files.profile_img;
-  profile_img.mv(__dirname + "/../public/images/" + profile_img.name, function(err) {
-    if (err)
-      return res.status(500).send(err);
+  // res.send({
+  //   "success": false,
+  //   "message": "Something went wrong."
+  // });
+  // profile_img.mv(__dirname + "/../public/images/" + profile_img.name, function(err) {
+  //   if (err)
+  //     return res.status(500).send(err);
 
-    knex('users').where('id', '=', req.params.userId).update({ profile_img: profile_img.name }).then(()=>{
-      res.send('File uploaded!');
-    }).catch(err => {
-      res.send({
-        "success": false,
-        "message": "Something went wrong."
+  //   knex('users').where('id', '=', req.params.userId).update({ profile_img: profile_img.name }).then(()=>{
+  //     res.send('File uploaded!');
+  //   }).catch(err => {
+  //     res.send({
+  //       "success": false,
+  //       "message": "Something went wrong."
+  //     });
+  //   });
+  // });
+
+  fs.readFile(profile_img.tempFilePath, (err, data) => {
+    if (err) throw err;
+    const params = {
+        Bucket: 'nodeappfileupload',
+        Key: profile_img.name, 
+        Body: JSON.stringify(data, null, 2)
+    };
+    s3.upload(params, function(s3Err, data) {
+        if (s3Err) throw s3Err
+        console.log(`File uploaded successfully at ${data.Location}`)
+
+      knex('users').where('id', '=', req.params.userId).update({ profile_img: profile_img.name }).then(()=>{
+        res.send({
+          "success": true,
+          "message": `File uploaded successfully at ${data.Location}`
+        });
+      }).catch(err => {
+        res.send({
+          "success": false,
+          "message": "Something went wrong."
+        });
       });
     });
   });
 });
 
 module.exports = router;
-
-
-// console.log(sampleFile.name);
-  // fs.readFile(sampleFile, (err, data) => {
-  //   if (err) throw err;
-  //   const params = {
-  //       Bucket: 'nodeapp-files',
-  //       Key: sampleFile.name, 
-  //       Body: JSON.stringify(data, null, 2)
-  //   };
-  //   s3.upload(params, function(s3Err, data) {
-  //       if (s3Err) throw s3Err
-  //       console.log(`File uploaded successfully at ${data.Location}`)
-
-      // res.send({
-      //   "success": true,
-      //   "message": "DONE"
-      // });
-  //   });
-  // });
