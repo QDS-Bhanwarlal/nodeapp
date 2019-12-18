@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var usersRouter = require('./routes/users');
-
+const fileUpload = require('express-fileupload');
 var app = express();
 
 // view engine setup
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(fileUpload());
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

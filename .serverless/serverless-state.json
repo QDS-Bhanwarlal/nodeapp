@@ -160,7 +160,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/node-app/dev/1576558974835-2019-12-17T05:02:54.835Z/node-app.zip"
+                "S3Key": "serverless/node-app/dev/1576658401450-2019-12-18T08:40:01.450Z/node-app.zip"
               },
               "FunctionName": "node-app-dev-app",
               "Handler": "app.handler",
@@ -172,21 +172,26 @@
                 ]
               },
               "Runtime": "nodejs12.x",
-              "Timeout": 6
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "NODE_ENV": "staging"
+                }
+              }
             },
             "DependsOn": [
               "AppLogGroup",
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersionzKJKk28tQoUzo550RXQRIs3fZ5xkY3KTwajV9vOOs": {
+          "AppLambdaVersionLZHnbL1LIw1ew8qWQMMwasiABmVvf0HMV2R2LfIFbOE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "fwXAYYCPgC5iLRo6IkCJDRJjYEVi7MgSwEjuNx8HP4E="
+              "CodeSha256": "U5Vi4Ti7UiyeML+NsJmRBAE9QERxkdpBKY4NDvz9XWc="
             }
           },
           "ApiGatewayRestApi": {
@@ -397,7 +402,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1576558953354": {
+          "ApiGatewayDeployment1576658376513": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -459,7 +464,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionzKJKk28tQoUzo550RXQRIs3fZ5xkY3KTwajV9vOOs"
+              "Ref": "AppLambdaVersionLZHnbL1LIw1ew8qWQMMwasiABmVvf0HMV2R2LfIFbOE"
             }
           },
           "ServiceEndpoint": {
@@ -563,6 +568,9 @@
     "functions": {
       "app": {
         "handler": "app.handler",
+        "environment": {
+          "NODE_ENV": "staging"
+        },
         "events": [
           {
             "http": {
@@ -630,7 +638,7 @@
     "artifact": "/home/bhanwar/quodisys/task/nodeapp/.serverless/node-app.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/node-app/dev/1576558974835-2019-12-17T05:02:54.835Z",
+    "artifactDirectoryName": "serverless/node-app/dev/1576658401450-2019-12-18T08:40:01.450Z",
     "artifact": "node-app.zip"
   }
 }

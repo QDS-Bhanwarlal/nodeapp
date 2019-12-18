@@ -10,6 +10,8 @@ plugins:
 functions:
   app:
     handler: app.handler
+    environment:
+      NODE_ENV: staging
     events: 
       - http: 
           path: /
