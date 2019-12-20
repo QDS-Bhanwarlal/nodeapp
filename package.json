@@ -7,24 +7,24 @@
     "test": "jest ./tests/users.test.js"
   },
   "dependencies": {
+    "aws-lambda-multipart-parser": "^0.1.3",
     "aws-sdk": "^2.592.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-fileupload": "^1.1.6",
-    "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
     "knex": "^0.20.4",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "nodemon": "^2.0.2",
     "pg": "^7.15.0",
-    "pug": "^2.0.4",
-    "serverless-http": "^2.3.0"
+    "pug": "^2.0.4"
   },
   "devDependencies": {
     "child_process": "^1.0.2",
     "jest": "^24.9.0",
+    "serverless-apigw-binary": "^0.4.4",
     "serverless-offline": "^5.12.1",
     "supertest": "^4.0.2"
   }

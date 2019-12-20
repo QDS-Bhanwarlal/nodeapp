@@ -5,26 +5,73 @@ provider:
   stage: dev
   region: us-east-1
   memorySize: 128
+  environment:
+    NODE_ENV: staging
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "s3:*"
       Resource: "arn:aws:s3:::nodeappfileupload/*"
+
 plugins:
   - serverless-offline
+  - serverless-apigw-binary
+
+custom:
+  apigwBinary:
+    types:           #list of mime-types
+      - 'image/jpeg'
+      - 'text/html'
+
+
 functions:
-  app:
-    handler: app.handler
-    environment:
-      NODE_ENV: staging
-    events: 
+  index:
+    handler: api/users.index
+    memorySize: 128
+    description: Index
+    events:
       - http: 
           path: /
-          method: ANY
+          method: get
           cors: true
+  listUsers:
+    handler: api/users.listUsers
+    memorySize: 128
+    description: List all users
+    events:
       - http: 
-          path: /{proxy+}
-          method: ANY
+          path: users
+          method: get
+          cors: true
+
+  getUsersCount:
+    handler: api/users.getUsersCount
+    memorySize: 128
+    description: Get users count
+    events:
+      - http: 
+          path: users/count
+          method: get
+          cors: true
+
+  getUserById:
+    handler: api/users.getUserById
+    memorySize: 128
+    description: Get user by Id
+    events:
+      - http: 
+          path: users/{id}
+          method: get
+          cors: true
+
+  uploadUserProfileImg:
+    handler: api/users.uploadUserProfileImg
+    memorySize: 128
+    description: Upload user profile picture
+    events:
+      - http: 
+          path: users/{id}/upload
+          method: post
           cors: true
 
 resources:
