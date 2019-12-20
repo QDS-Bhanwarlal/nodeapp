@@ -3,5 +3,5 @@ phases:
   install:
     commands:
       - npm i
-        npm i -g serverless
-        sls offline --exec 'npm test'
+      - npm i -g serverless
+      - sls offline --exec 'npm test'
