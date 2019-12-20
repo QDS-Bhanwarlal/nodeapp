@@ -1,29 +1,8 @@
-# version: 0.2
-# phases:
-#   install:
-#     commands:
-#       - npm i
-#       - npm i -g serverless
-      
-
 version: 0.2
-
 phases:
   install:
     commands:
-        - npm i
-        - npm i -g serverless
-  pre_build:
-    commands:
-        - npm i
-  build:
-    commands:
-        - sls offline --exec 'npm test'
-        - mkdir -p target/stg
-        - serverless package --package target/stg
-
-artifacts:
-  files:
-  - target/**/*
-  - serverless.yml
-  - deploy.sh
+      - npm i
+      - npm i -g serverless
+      - sls offline --exec 'npm test'
+      - sls deploy
