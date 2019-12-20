@@ -7,11 +7,18 @@ provider:
   memorySize: 128
   environment:
     NODE_ENV: staging
+    S3_BUCKET_NAME: ${self:custom.s3BucketName}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "s3:*"
-      Resource: "arn:aws:s3:::nodeappfileupload/*"
+      Resource: 
+          - "Fn::Join":
+            - ""
+            - - "arn:aws:s3:::"
+              - Ref: UploadBucket
+              - "*"
+        # "arn:aws:s3:::nodeappfileupload/*"
 
 plugins:
   - serverless-offline
@@ -22,6 +29,10 @@ custom:
     types:           #list of mime-types
       - 'image/jpeg'
       - 'text/html'
+
+  s3BucketName:
+    Ref: UploadBucket
+
 
 
 functions:
@@ -79,7 +90,6 @@ resources:
     UploadBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: nodeappfileupload
         AccessControl: PublicRead
         CorsConfiguration:
           CorsRules:

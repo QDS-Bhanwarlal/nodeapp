@@ -88,7 +88,7 @@ module.exports.uploadUserProfileImg = (event, context, callback) => {
     let file = multipart.parse(event, true)
     let fileName = file.profile_img.filename;
     let params = {
-        // Bucket: 'node-app-dev-app',
+        Bucket: process.env.S3_BUCKET_NAME,
         Key: fileName,
         Body: file.profile_img.content,
         ContentType: 'image/jpeg'
@@ -103,13 +103,23 @@ module.exports.uploadUserProfileImg = (event, context, callback) => {
                 }
             )));
         }
-
-        return callback(null, successResponseBuilder(JSON.stringify(
-            {
-                "success": true,
-                "message": "File-uploaded"
-            }
-        )));
+        
+        knex('users').where('id', '=', event.pathParameters.id).update({ profile_img: fileName }).then(user => {
+            return callback(null, successResponseBuilder(JSON.stringify(
+                {
+                    "success": true,
+                    "payload": user,
+                    "message": "File uploaded successfully"
+                }
+            )));
+        }).catch(err => {
+            return callback(null, failureResponseBuilder(500, JSON.stringify(
+                {
+                    "success": false,
+                    "message": "Something went wrong."
+                }
+            )));
+        });
     });
 };
 
