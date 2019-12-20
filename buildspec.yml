@@ -5,4 +5,6 @@ phases:
       - npm i
       - npm i -g serverless
       - sls offline --exec 'npm test'
+  build:
+    commands:
       - sls deploy
